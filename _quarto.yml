@@ -1,8 +1,8 @@
 project:
   type: website
-
+  output-dir: docs
 website:
-  title: "Blog"
+  title: ""
   navbar:
     right:
       - about.qmd
@@ -12,7 +12,7 @@ website:
         href: https://twitter.com
 format:
   html:
-    theme: cosmo
+    theme: Journal
     css: styles.css
 
 editor: visual

@@ -18,9 +18,14 @@ recent_grads
 
 ```{r}
 recent_grads %>% view()
+
+
+
 ```
 
 ## What category Majors earn more salaries
+
+Here we explore the College Majors Dataset published by five-thirty-eight.com
 
 ```{r}
 ggplot(recent_grads) + geom_boxplot(mapping=aes(x = Major_category , y = Median)) + coord_flip()
