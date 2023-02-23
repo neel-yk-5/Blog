@@ -1,0 +1,75 @@
+---
+title: College Majors Dataset Exploratory Analysis
+author: "Neel Khare"
+date: "2023-02-23"
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+recent_grads <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv")
+```
+
+```{r}
+recent_grads
+```
+
+```{r}
+recent_grads %>% view()
+```
+
+## What category Majors earn more salaries
+
+```{r}
+ggplot(recent_grads) + geom_boxplot(mapping=aes(x = Major_category , y = Median)) + coord_flip()
+```
+
+We can see that Engineering clearly has a better median salary than the other major categories out there and Psychology , Social work has the least median pay
+
+Take Note that the distributions given here are the distribution of the median values of majors within each major category and only a certain sample_size is considered while taking the median for each major we must incorporate that information within this plot to make sure we dont make false inferences
+
+For ex- There might be major categories where salary is very high but given sample size is low hence these values cannot be trusted completely
+
+We need to plot the sample size of each job category and see which categories might have too few observations
+
+```{r}
+  x <-  recent_grads %>%  group_by(Major_category) %>% summarise(total_sample_size = sum(Sample_size))
+
+ggplot(x) + geom_bar(mapping = aes(x = Major_category, y = total_sample_size),stat="identity") + coord_flip()
+```
+
+Agriculture , Physical Sciences and Law , Public policy have really low sample sizes compared to other ,major categories and apart from business all other majors have nearly the same sample size whereas business has very big sample size
+
+```{r}
+ Business_data <- recent_grads %>% filter(Major_category == "Business")
+```
+
+## Why is Business such a popular Major category among Students ?
+
+#### Is it because a degree in business helps you get more jobs ?
+
+```{r}
+major_grouped <-  recent_grads %>% group_by(Major_category) %>% summarise(tot_college = sum(College_jobs) , tot_non_college = sum(Non_college_jobs), tot_employed = sum(Employed), tot_unemp = sum(Unemployed)) %>% mutate(fraction = tot_college/(tot_non_college+tot_college)) 
+```
+
+```{r}
+ggplot(data = major_grouped) + geom_bar(mapping =aes(x= Major_category , y = fraction),stat = "identity") + coord_flip()
+```
+
+Surprisingly , Business despite having so much popularity has one of the lowest fractions indicating that large number of people who take Business as their Major end up getting a job that doesn't even require that degree !
+
+#### Is Employment rate better in Business Major students ?
+
+```{r}
+ ggplot(major_grouped) +  geom_bar(mapping = aes(x = Major_category , y = tot_employed/(tot_employed+tot_unemp)), stat ="identity")+ coord_flip()
+```
+
+This doesn't convey a lot of information since the sample sizes are not taken into account while calculating the employment rates Agriculture and Natural resources has high employment but a very low sample size
+
+From the first row in the dataset we can see that the numbers for employed , unemployed and total dont match and there is some difference Why ?
+
+```{r}
+ggplot(recent_grads) + geom_density(mapping=aes(x = Total - (Employed+Unemployed)))
+```

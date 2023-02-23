@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "posts/College Majors Dataset /CollegeMajors.html",
+    "href": "posts/College Majors Dataset /CollegeMajors.html",
+    "title": "College Majors Dataset Exploratory Analysis",
+    "section": "",
+    "text": "library(tidyverse)\n\n── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──\n\n\n✔ ggplot2 3.3.6     ✔ purrr   0.3.4\n✔ tibble  3.1.7     ✔ dplyr   1.0.9\n✔ tidyr   1.2.0     ✔ stringr 1.4.0\n✔ readr   2.1.2     ✔ forcats 0.5.1\n\n\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()"
+  },
+  {
+    "objectID": "posts/College Majors Dataset /CollegeMajors.html#what-category-majors-earn-more-salaries",
+    "href": "posts/College Majors Dataset /CollegeMajors.html#what-category-majors-earn-more-salaries",
+    "title": "College Majors Dataset Exploratory Analysis",
+    "section": "What category Majors earn more salaries",
+    "text": "What category Majors earn more salaries\n\nggplot(recent_grads) + geom_boxplot(mapping=aes(x = Major_category , y = Median)) + coord_flip()\n\n\n\n\nWe can see that Engineering clearly has a better median salary than the other major categories out there and Psychology , Social work has the least median pay\nTake Note that the distributions given here are the distribution of the median values of majors within each major category and only a certain sample_size is considered while taking the median for each major we must incorporate that information within this plot to make sure we dont make false inferences\nFor ex- There might be major categories where salary is very high but given sample size is low hence these values cannot be trusted completely\nWe need to plot the sample size of each job category and see which categories might have too few observations\n\n  x <-  recent_grads %>%  group_by(Major_category) %>% summarise(total_sample_size = sum(Sample_size))\n\nggplot(x) + geom_bar(mapping = aes(x = Major_category, y = total_sample_size),stat=\"identity\") + coord_flip()\n\n\n\n\nAgriculture , Physical Sciences and Law , Public policy have really low sample sizes compared to other ,major categories and apart from business all other majors have nearly the same sample size whereas business has very big sample size\n\n Business_data <- recent_grads %>% filter(Major_category == \"Business\")"
+  },
+  {
+    "objectID": "posts/College Majors Dataset /CollegeMajors.html#why-is-business-such-a-popular-major-category-among-students",
+    "href": "posts/College Majors Dataset /CollegeMajors.html#why-is-business-such-a-popular-major-category-among-students",
+    "title": "College Majors Dataset Exploratory Analysis",
+    "section": "Why is Business such a popular Major category among Students ?",
+    "text": "Why is Business such a popular Major category among Students ?\n\nIs it because a degree in business helps you get more jobs ?\n\nmajor_grouped <-  recent_grads %>% group_by(Major_category) %>% summarise(tot_college = sum(College_jobs) , tot_non_college = sum(Non_college_jobs), tot_employed = sum(Employed), tot_unemp = sum(Unemployed)) %>% mutate(fraction = tot_college/(tot_non_college+tot_college)) \n\n\nggplot(data = major_grouped) + geom_bar(mapping =aes(x= Major_category , y = fraction),stat = \"identity\") + coord_flip()\n\n\n\n\nSurprisingly , Business despite having so much popularity has one of the lowest fractions indicating that large number of people who take Business as their Major end up getting a job that doesn’t even require that degree !\n\n\nIs Employment rate better in Business Major students ?\n\n ggplot(major_grouped) +  geom_bar(mapping = aes(x = Major_category , y = tot_employed/(tot_employed+tot_unemp)), stat =\"identity\")+ coord_flip()\n\n\n\n\nThis doesn’t convey a lot of information since the sample sizes are not taken into account while calculating the employment rates Agriculture and Natural resources has high employment but a very low sample size\nFrom the first row in the dataset we can see that the numbers for employed , unemployed and total dont match and there is some difference Why ?\n\nggplot(recent_grads) + geom_density(mapping=aes(x = Total - (Employed+Unemployed)))\n\nWarning: Removed 1 rows containing non-finite values (stat_density)."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Playing with Data",
+    "section": "",
+    "text": "Post With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nFeb 23, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCollege Majors Dataset Exploratory Analysis\n\n\n\n\n\n\n\n\n\n\n\n\nFeb 23, 2023\n\n\nNeel Khare\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nFeb 20, 2023\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  }
+]
